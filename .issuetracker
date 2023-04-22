@@ -1,0 +1,7 @@
+# Integration with Issue Tracker
+#
+# (note that '\' need to be escaped).
+
+[issuetracker "manage-program-issue-tracker"]
+  regex = "#(\\d+)"
+  url = "https://github.com/serment7/manage-program/issues/$1"
