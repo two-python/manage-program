@@ -4,4 +4,4 @@
 
 [issuetracker "manage-program-issue-tracker"]
   regex = "#(\\d+)"
-  url = "https://github.com/serment7/manage-program/issues/$1"
+  url = "https://github.com/two-python/manage-program/issues/$1"
