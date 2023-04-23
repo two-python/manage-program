@@ -1,28 +1,52 @@
-menu = 0
+# PROPERTY NAME
+PROPERTY_MENU_NAME = "menu_name"
+PROPERTY_HANDLER = "handler"
 
-travel_list = []
+# MENU STATES
+is_shutdown = False
+menu_main = {}
 
-while menu != 4: 
-    print("_"*50)
-    print("여행장소 관리 프로그램")
-    print("_"*50)
-    print("1. 여행장소 목록 출력")
-    print("2. 여행장소 추가")
-    print("3. 여행장소 삭제")
-    print("4. 종료하기")
-    
-    menu = int(input("메뉴를 선택하시오=>"))
 
-    if menu == 1:
-        print (travel_list)
-    elif menu == 2:
-        place = input("추가할 여행지를 입력하세요=>")
-        travel_list.append(place)
-    elif menu == 3:
-        print(travel_list)
-        idx = int(input("삭제할 여행지 인덱스 번호를 입력하세요"))
-        place = travel_list[idx]
-        del travel_list[idx]
-        print(f"[place) 여행지가 삭제되었습니다. 여행지 목록=>{travel_list}")
-    else:
-        print("종료합니다")
+# MENU FUNCTION
+def append_menu(menu_set, menu_name, handler):
+    menu_set[str(len(menu_set.keys()) + 1)] = {PROPERTY_MENU_NAME: menu_name, PROPERTY_HANDLER: handler}
+
+
+def exit_menu():
+    global is_shutdown
+    is_shutdown = True
+
+
+def print_menu(menu):
+    menu_numbers = list(menu.keys())
+    for menu_number in menu_numbers:
+        print(f"[{menu_number}] {menu[menu_number][PROPERTY_MENU_NAME]}")
+
+
+# APPEND MENU
+# append_menu(menu_main, "무서운이야기 목록 출력", print_story)
+# append_menu(menu_main, "무서운이야기 읽기", select_story)
+# append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
+# append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
+# append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
+# append_menu(menu_main, "설정하기", modify_setting)
+append_menu(menu_main, "종료하기", exit_menu)
+
+while True:
+    if is_shutdown:
+        break
+
+    print("_" * 50)
+    print("무서운이야기 컬렉션 모음집")
+    print("_" * 50)
+    print_menu(menu_main)
+
+    menu_selection = input("메뉴번호를 입력하세요 : ")
+
+    if menu_selection not in menu_main:
+        print("없는 메뉴를 선택하셨습니다")
+        continue
+
+    menu_main[menu_selection][PROPERTY_HANDLER]()
+
+print("종료합니다")
