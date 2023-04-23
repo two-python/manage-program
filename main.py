@@ -1,10 +1,16 @@
+import os
+
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
 PROPERTY_HANDLER = "handler"
+PROPERTY_PATH = "path"
+PROPERTY_STORY_NAME = "story_name"
+PATH_STORY = 'story'
 
 # MENU STATES
 is_shutdown = False
 menu_main = {}
+view_story = {}
 
 
 # MENU FUNCTION
@@ -23,9 +29,51 @@ def print_menu(menu):
         print(f"[{menu_number}] {menu[menu_number][PROPERTY_MENU_NAME]}")
 
 
+def append_story(story_set, story_name, path):
+    story_set[str(len(story_set.keys()) + 1)] = {PROPERTY_STORY_NAME: story_name, PROPERTY_PATH: path}
+
+
+def load_stories(path):
+    global view_story
+    for file_name in os.listdir(path):
+        append_story(view_story, os.path.splitext(file_name)[0], f"{path}/{file_name}")
+
+
+def print_story():
+    global view_story
+    story_numbers = list(view_story.keys())
+    for story_number in story_numbers:
+        print(f"[{story_number}] {view_story[story_number][PROPERTY_STORY_NAME]}")
+
+
+def check_story_selection(story_selection):
+    global view_story
+    return story_selection in view_story
+
+
+def get_story(story_selection):
+    global view_story
+    return view_story[story_selection]
+
+
+def select_story():
+    story_selection = input("보고싶은 스토리 번호를 입력하세요 : ")
+
+    if check_story_selection(story_selection) is False:
+        print("없는 스토리를 고르셨어요")
+        return
+
+    selected_story = get_story(story_selection)
+    print(f"{story_selection}번 이야기 \"{selected_story[PROPERTY_STORY_NAME]}\"를 읽기 시작합니다")
+    # read_story(selected_story)
+
+
+# LOAD STORY
+load_stories(PATH_STORY)
+
 # APPEND MENU
-# append_menu(menu_main, "무서운이야기 목록 출력", print_story)
-# append_menu(menu_main, "무서운이야기 읽기", select_story)
+append_menu(menu_main, "무서운이야기 목록 출력", print_story)
+append_menu(menu_main, "무서운이야기 읽기", select_story)
 # append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
 # append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
 # append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
