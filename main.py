@@ -1,7 +1,8 @@
 import os
 
-from gtts import gTTS
-from playsound import playsound
+from tempfile import NamedTemporaryFile
+from lib.gTTS.gtts import gTTS
+from lib.playsound.playsound import playsound
 
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
@@ -71,26 +72,24 @@ def select_story():
 
     print(title_text)
 
-    title_tts = gTTS(title_text)
-    title_tts.save('story.mp3')
-    playsound('story.mp3')
+    gTTS(title_text).write_to_fp(voice := NamedTemporaryFile())
+    playsound(voice.name)
+    voice.close()
 
-    tell_story(selected_story[PROPERTY_STORY_NAME])
-    # read_story(selected_story)
+    read_story(selected_story)
 
 
-def tell_story(story_selection):
+def read_story(story_selection):
     file_index = ""
-    with open(f'{PATH_STORY}/{story_selection}.txt', 'r') as file:
+    with open(story_selection[PROPERTY_PATH], 'r') as file:
         file_index = file.read()
-
-    story = gTTS(file_index)
 
     print("-" * 50)
     print(file_index)
 
-    story.save('story.mp3')
-    playsound('story.mp3')
+    gTTS(file_index).write_to_fp(voice := NamedTemporaryFile())
+    playsound(voice.name)
+    voice.close()
 
 
 # LOAD STORY
