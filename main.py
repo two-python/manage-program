@@ -1,8 +1,8 @@
 import os
 
 from tempfile import NamedTemporaryFile
-from lib.gTTS.gtts import gTTS
-from lib.playsound.playsound import playsound
+from library.gTTS.gtts import gTTS
+from library.playsound.playsound import playsound
 
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
