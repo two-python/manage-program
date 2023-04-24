@@ -1,5 +1,8 @@
 import os
 
+from gtts import gTTS
+from playsound import playsound
+
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
 PROPERTY_HANDLER = "handler"
@@ -64,8 +67,30 @@ def select_story():
         return
 
     selected_story = get_story(story_selection)
-    print(f"{story_selection}번 이야기 \"{selected_story[PROPERTY_STORY_NAME]}\"를 읽기 시작합니다")
+    title_text = f"{story_selection}번 이야기 \"{selected_story[PROPERTY_STORY_NAME]}\"를 읽기 시작합니다"
+
+    print(title_text)
+
+    title_tts = gTTS(title_text)
+    title_tts.save('story.mp3')
+    playsound('story.mp3')
+
+    tell_story(selected_story[PROPERTY_STORY_NAME])
     # read_story(selected_story)
+
+
+def tell_story(story_selection):
+    file_index = ""
+    with open(f'{PATH_STORY}/{story_selection}.txt', 'r') as file:
+        file_index = file.read()
+
+    story = gTTS(file_index)
+
+    print("-" * 50)
+    print(file_index)
+
+    story.save('story.mp3')
+    playsound('story.mp3')
 
 
 # LOAD STORY
