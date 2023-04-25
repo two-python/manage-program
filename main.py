@@ -3,7 +3,6 @@ import pip
 from tempfile import NamedTemporaryFile
 from playsound import playsound
 from gtts import gTTS
-#from library.playsound.playsound import playsound
 
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
@@ -77,10 +76,10 @@ def select_story():
     print("voice : ", voice)
     print("title_text : ", title_text)
     
-    #playsound(voice.name)
+    playsound(voice.name)
     
-    #voice.close()
-    #read_story(selected_story)
+    voice.close()
+    read_story(selected_story)
 
 
 def read_story(story_selection):
@@ -100,8 +99,7 @@ def install(package):
 
 if __name__ == '__main__':
     install('gTTS') 
-    install('playsound')
-    #install('pydub')
+    install('playsound==1.2.2')
     
     # LOAD STORY
     load_stories(PATH_STORY)
