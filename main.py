@@ -1,4 +1,8 @@
 import os
+from tempfile import NamedTemporaryFile
+
+from library.gTTS.gtts import gTTS
+from library.playsound.playsound import playsound
 
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
@@ -11,6 +15,10 @@ PATH_STORY = 'story'
 is_shutdown = False
 menu_main = {}
 view_story = {}
+
+# SPEED STATES
+# ex) .gTTS(text, lang='ko', slow=isSlow) 
+isSlow = False
 
 
 # MENU FUNCTION
@@ -64,8 +72,38 @@ def select_story():
         return
 
     selected_story = get_story(story_selection)
-    print(f"{story_selection}번 이야기 \"{selected_story[PROPERTY_STORY_NAME]}\"를 읽기 시작합니다")
-    # read_story(selected_story)
+    title_text = f"{story_selection}번 이야기 \"{selected_story[PROPERTY_STORY_NAME]}\"를 읽기 시작합니다"
+
+    print(title_text)
+
+    gTTS(text=title_text, lang="ko", tld="co.kr", slow=isSlow).write_to_fp(voice := NamedTemporaryFile())
+    playsound(voice.name)
+    voice.close()
+
+    read_story(selected_story)
+
+
+def read_story(story_selection):
+    file_index = ""
+    with open(story_selection[PROPERTY_PATH], 'r') as file:
+        file_index = file.read()
+
+    print("-" * 50)
+    print(file_index)
+
+    gTTS(text=file_index, lang="ko", tld="co.kr", slow=isSlow).write_to_fp(voice := NamedTemporaryFile())
+    playsound(voice.name)
+    voice.close()
+
+
+def modify_setting():
+    global isSlow
+    answer = ""
+    if isSlow:
+        answer = input("현재 속도는 느립니다. 빠르게 설정하시겠습니까? (Y/N) : ")
+    else:
+        answer = input("현재 속도는 빠릅니다. 느리게 설정하시겠습니까? (Y/N) : ")
+    isSlow = not isSlow if answer.upper() == "Y" else isSlow
 
 
 # LOAD STORY
@@ -77,7 +115,7 @@ append_menu(menu_main, "무서운이야기 읽기", select_story)
 # append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
 # append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
 # append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
-# append_menu(menu_main, "설정하기", modify_setting)
+append_menu(menu_main, "속도 설정하기", modify_setting)
 append_menu(menu_main, "종료하기", exit_menu)
 
 while True:
