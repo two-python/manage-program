@@ -1,8 +1,15 @@
 import os
 from tempfile import NamedTemporaryFile
 
-from library.gTTS.gtts import gTTS
-from library.playsound.playsound import playsound
+from gtts import gTTS
+from playsound import playsound
+
+import subprocess
+
+subprocess.run(['pip3', 'install', 'PyObjC'])
+subprocess.run(['pip3', 'install', 'gTTS'])
+subprocess.run(['pip3', 'install', 'playsound'])
+
 
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
