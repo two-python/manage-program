@@ -1,6 +1,6 @@
 import os
-
 from tempfile import NamedTemporaryFile
+
 from library.gTTS.gtts import gTTS
 from library.playsound.playsound import playsound
 
@@ -19,6 +19,7 @@ view_story = {}
 # SPEED STATES
 # ex) .gTTS(text, lang='ko', slow=isSlow) 
 isSlow = False
+
 
 # MENU FUNCTION
 def append_menu(menu_set, menu_name, handler):
@@ -75,7 +76,7 @@ def select_story():
 
     print(title_text)
 
-    gTTS(title_text).write_to_fp(voice := NamedTemporaryFile())
+    gTTS(text=title_text, lang="ko", tld="co.kr", slow=isSlow).write_to_fp(voice := NamedTemporaryFile())
     playsound(voice.name)
     voice.close()
 
@@ -90,18 +91,20 @@ def read_story(story_selection):
     print("-" * 50)
     print(file_index)
 
-    gTTS(file_index).write_to_fp(voice := NamedTemporaryFile())
+    gTTS(text=file_index, lang="ko", tld="co.kr", slow=isSlow).write_to_fp(voice := NamedTemporaryFile())
     playsound(voice.name)
     voice.close()
 
-def modify_setting() :
+
+def modify_setting():
     global isSlow
     answer = ""
-    if isSlow :
+    if isSlow:
         answer = input("현재 속도는 느립니다. 빠르게 설정하시겠습니까? (Y/N) : ")
-    else : 
+    else:
         answer = input("현재 속도는 빠릅니다. 느리게 설정하시겠습니까? (Y/N) : ")
     isSlow = not isSlow if answer.upper() == "Y" else isSlow
+
 
 # LOAD STORY
 load_stories(PATH_STORY)
