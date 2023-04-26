@@ -16,6 +16,9 @@ is_shutdown = False
 menu_main = {}
 view_story = {}
 
+# SPEED STATES
+# ex) .gTTS(text, lang='ko', slow=isSlow) 
+isSlow = False
 
 # MENU FUNCTION
 def append_menu(menu_set, menu_name, handler):
@@ -91,6 +94,14 @@ def read_story(story_selection):
     playsound(voice.name)
     voice.close()
 
+def modify_setting() :
+    global isSlow
+    answer = ""
+    if isSlow :
+        answer = input("현재 속도는 느립니다. 빠르게 설정하시겠습니까? (Y/N) : ")
+    else : 
+        answer = input("현재 속도는 빠릅니다. 느리게 설정하시겠습니까? (Y/N) : ")
+    isSlow = not isSlow if answer.upper() == "Y" else isSlow
 
 # LOAD STORY
 load_stories(PATH_STORY)
@@ -101,7 +112,7 @@ append_menu(menu_main, "무서운이야기 읽기", select_story)
 # append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
 # append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
 # append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
-# append_menu(menu_main, "설정하기", modify_setting)
+append_menu(menu_main, "속도 설정하기", modify_setting)
 append_menu(menu_main, "종료하기", exit_menu)
 
 while True:
