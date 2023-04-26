@@ -11,6 +11,7 @@ PATH_STORY = 'story'
 is_shutdown = False
 menu_main = {}
 view_story = {}
+bookmark_list = {}
 
 
 # MENU FUNCTION
@@ -68,15 +69,42 @@ def select_story():
     # read_story(selected_story)
 
 
+def print_book_mark():
+    print(bookmark_list)
+
+
+def append_book_mark():
+    bookmark = input("북마크바에 추가할 이야기를 입력하세요=>")
+
+    if check_story_selection(bookmark) is False:
+        print("없는 스토리를 고르셨어요")
+        return
+
+    bookmark_list[bookmark] = get_story(bookmark)
+
+
+def remove_book_mark():
+    print(bookmark_list)
+    idx = input("북마크바에서 삭제할 여행지 인덱스 번호를 입력하세요")
+
+    if idx not in bookmark_list:
+        print("없는 북마크를 고르셨어요")
+        return
+
+    bookmark = bookmark_list[idx]
+    del bookmark_list[idx]
+    print(f"{bookmark[PROPERTY_STORY_NAME]} 이야기가 삭제되었습니다. 북마크 목록=>{bookmark_list}")
+
+
 # LOAD STORY
 load_stories(PATH_STORY)
 
 # APPEND MENU
 append_menu(menu_main, "무서운이야기 목록 출력", print_story)
 append_menu(menu_main, "무서운이야기 읽기", select_story)
-# append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
-# append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
-# append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
+append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
+append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
+append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
 # append_menu(menu_main, "설정하기", modify_setting)
 append_menu(menu_main, "종료하기", exit_menu)
 
