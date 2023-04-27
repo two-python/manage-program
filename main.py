@@ -1,15 +1,22 @@
+import importlib
 import os
-from tempfile import NamedTemporaryFile
+import subprocess
 
 from gtts import gTTS
 from playsound import playsound
 
-import subprocess
-
-subprocess.run(['pip3', 'install', 'PyObjC'])
-subprocess.run(['pip3', 'install', 'gTTS'])
-subprocess.run(['pip3', 'install', 'playsound'])
-
+try:
+    importlib.import_module('PyObjC')
+except ImportError:
+    subprocess.run(['pip3', 'install', 'PyObjC'])
+try:
+    importlib.import_module('gTTS')
+except ImportError:
+    subprocess.run(['pip3', 'install', 'gTTS'])
+try:
+    importlib.import_module('playsound')
+except ImportError:
+    subprocess.run(['pip3', 'install', 'playsound'])
 
 # PROPERTY NAME
 PROPERTY_MENU_NAME = "menu_name"
@@ -83,10 +90,10 @@ def select_story():
 
     print(title_text)
 
-    gTTS(text=title_text, lang="ko", tld="co.kr", slow=isSlow).write_to_fp(voice := NamedTemporaryFile())
-    playsound(voice.name)
-    voice.close()
-
+    sp = gTTS(text=title_text, lang="ko", tld="co.kr", slow=isSlow)
+    sp.save('title.mp3')
+    playsound('title.mp3')
+    os.remove('title.mp3')
     read_story(selected_story)
 
 
@@ -98,9 +105,10 @@ def read_story(story_selection):
     print("-" * 50)
     print(file_index)
 
-    gTTS(text=file_index, lang="ko", tld="co.kr", slow=isSlow).write_to_fp(voice := NamedTemporaryFile())
-    playsound(voice.name)
-    voice.close()
+    sp = gTTS(text=file_index, lang="ko", tld="co.kr", slow=isSlow)
+    sp.save('story.mp3')
+    playsound('story.mp3')
+    os.remove('story.mp3')
 
 
 def modify_setting():
