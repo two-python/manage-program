@@ -66,7 +66,9 @@ def select_story():
 
     selected_story = get_story(story_selection)
     print(f"{story_selection}번 이야기 \"{selected_story[PROPERTY_STORY_NAME]}\"를 읽기 시작합니다")
-    # read_story(selected_story)
+    with open(selected_story[PROPERTY_PATH], 'r', encoding='utf-8') as file:
+        story_text = file.read()
+    print(story_text)
 
 
 def print_book_mark():
@@ -105,7 +107,6 @@ append_menu(menu_main, "무서운이야기 읽기", select_story)
 append_menu(menu_main, "무서운이야기 북마크 목록 출력", print_book_mark)
 append_menu(menu_main, "무서운이야기 북마크 추가", append_book_mark)
 append_menu(menu_main, "무서운이야기 북마크 삭제", remove_book_mark)
-# append_menu(menu_main, "설정하기", modify_setting)
 append_menu(menu_main, "종료하기", exit_menu)
 
 while True:
